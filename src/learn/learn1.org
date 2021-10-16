@@ -1,0 +1,81 @@
+#+title: Learning jupyter through emacs-jupyter
+#+author: Nilay Kumar
+#+date: <2021-10-16 Sat>
+
+* Initial configuration
+** Which python?
+*** conda.el
+First we make sure that we're running the correct python. This is done via
+doom-emacs's =+conda flag= for python, which enables the package =conda.el=. We
+run =M-x conda-env-activate= and choose the appropriate conda environment.
+Alternatively, simply run the following code block with =C-c C-c=:
+#+begin_src emacs-lisp
+(conda-env-activate "air-quality")
+#+end_src
+
+#+RESULTS:
+: Switched to conda environment: /opt/homebrew/Caskroom/miniconda/base/envs/air-quality/
+
+*** jupyter-python, sessions
+Just to double check that all's well...
+#+begin_src jupyter-python :session py
+import sys
+sys.exec_prefix
+#+end_src
+
+#+RESULTS:
+: /opt/homebrew/Caskroom/miniconda/base/envs/air-quality
+
+We should, of course, make sure that our conda environment has all the relevant
+packages that we will need below.
+** Inserting code blocks
+*** TODO org-tempo? yasnippets? custom configuration?
+
+* Getting started
+** Sampling from a Gaussian
+*** imports
+Let's get a simple example up and running. Let's sample from a Gaussian
+distribution and plot the results. First the relevant imports:
+#+begin_src jupyter-python :session py
+import numpy as np
+import matplotlib.pyplot as plt
+#+end_src
+
+#+RESULTS:
+
+*** TODO hiding empty results
+Notice that this code block has no output. We should configure org-babel so that
+empty code blocks display no =#+RESULTS=.
+
+*** TODO naming code blocks, are there tags? execution order?
+
+*** sampling, header-args
+Next, we sample from the distribution:
+#+begin_src jupyter-python :session py :var n=1000
+mu, sigma = 0, 1
+sample = np.random.normal(mu, sigma, n)
+print(f"Took {len(sample)} samples.")
+#+end_src
+
+#+RESULTS:
+: Took 1000 samples.
+
+Notice that we provided the sample size as an argument in the header of the code block.
+
+*** plotting, inline-images
+Finally we construct and display a histogram overlaid against the distribution.
+Again we use header arguments... just for fun, really. It'd probably be more
+readable as constants clearly defined in one place.
+#+begin_src jupyter-python :session py :var bins=30
+count, bins, ignored = plt.hist(sample, bins, density=True)
+plt.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) *
+         np.exp( - (bins - mu)**2 / (2 * sigma**2) ),
+         linewidth=2, color='r')
+plt.show()
+#+end_src
+
+#+RESULTS:
+[[file:./.ob-jupyter/4237aafbc9f595cc0ef91ed1abf78b2f1cc06099.png]]
+
+The resulting image is served as as org-mode link, which should be automatically
+shown as an inline image. Looks great!
