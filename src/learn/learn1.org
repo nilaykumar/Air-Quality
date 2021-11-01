@@ -36,29 +36,19 @@ packages that we will need below.
 *** imports
 Let's get a simple example up and running. Let's sample from a Gaussian
 distribution and plot the results. First the relevant imports:
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :results none
 import numpy as np
 import matplotlib.pyplot as plt
 #+end_src
-
-#+RESULTS:
-
-*** TODO hiding empty results
-Notice that this code block has no output. We should configure org-babel so that
-empty code blocks display no =#+RESULTS=.
-
-*** TODO naming code blocks, are there tags? execution order?
+Notice the usage of the results flag to supress an empty =#+results= block that
+would otherwise be displayed.
 
 *** sampling, header-args
 Next, we sample from the distribution:
-#+begin_src jupyter-python :session py :var n=1000
+#+begin_src jupyter-python :session py :var n=1000 :results none
 mu, sigma = 0, 1
 sample = np.random.normal(mu, sigma, n)
-print(f"Took {len(sample)} samples.")
 #+end_src
-
-#+RESULTS:
-: Took 1000 samples.
 
 Notice that we provided the sample size as an argument in the header of the code block.
 
