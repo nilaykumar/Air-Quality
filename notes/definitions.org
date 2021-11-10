@@ -1,4 +1,4 @@
-#+TITLE: Definitions
+#+TITLE: Nilay's notes
 
 * Air quality measurements
 ** Particulate matter
@@ -198,3 +198,17 @@ experimental error.
 There are quite a few PurpleAir sensors located throughout parts of Chicago.
 There are not many AirNow sensors in Chicago, however, and they are moreover not
 distributed throughout.
+
+
+* Miscellaneous notes
+
+** Keeping up-to-date with requirements.txt
+In the case that the =requirements.txt= file changes (say, upon a =git pull=,
+etc.) we should make sure that our conda environment has the correct
+dependencies. Here's one way to do this:
+#+begin_src sh
+conda env update --name air-quality --file requirements.txt --prune
+#+end_src
+Here I'm assuming that our enviroment is called =air-quality=. The =--prune=
+flag removes any dependencies that are installed in the environment but (no
+longer) needed à la =requirements.txt=.
