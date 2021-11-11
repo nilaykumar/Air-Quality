@@ -212,3 +212,32 @@ conda env update --name air-quality --file requirements.txt --prune
 Here I'm assuming that our enviroment is called =air-quality=. The =--prune=
 flag removes any dependencies that are installed in the environment but (no
 longer) needed à la =requirements.txt=.
+
+
+* Meeting notes
+** November 10, 2021
+
+*** Questions to think about:
+1. What are the margins of error on the readings? The sensors used by PurpleAir
+   have an effective range of 0 to 500 µg/m^3 for the PM2.5 reading. There are
+   however a number of readings in the dataset that are higher than the 500
+   µg/m^3 threshold. Moreover, the consistency error between 0-100 is $\pm 10$
+   while the consistency error between 100-500 is $\pm 10\%$. These numbers are
+   pulled from the 2016 product data manual linked above on the south coast AQMD
+   website. By the way, what exactly do they mean by consistency error?
+   PurpleAir states that their sensors arrive factory calibrated.
+   Anyway, these are are probably good to keep in mind, especially when
+   thinking when dealing with outliers.
+
+   At the same time, we should be careful because if such spikes are seen
+   across various different sensors (and sensor types), then they may be
+   signalling a temporary spike in poor air quality (such as the spikes seen in
+   July, which I would hazard are due to either the fourth of July or the
+   Canadian wildfire smoke blowing southwest).
+2. How do we measure correlations in time and space? The air quality
+   measurements are given as time-series data, and we might wish to understand
+   correlations between the AirNow (or PurpleAir) readings in Chicago in a fixed
+   time period. On the other hand, one of the main goals of the project is to
+   understand the localized spatial variation or correlation in the measurements
+   of nearby sensors. What are some statistical techniques that we can use to
+   try to get a handle on these variations?
